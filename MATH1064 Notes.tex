@@ -1,0 +1,130 @@
+\documentclass[12pt]{article}
+\NeedsTeXFormat{LaTeX2e}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Template by Nicholas Bertollo
+% You may change and reuse this as you see fit
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Replace this information!
+\newcommand{\studyunit}{MATH1064}
+\newcommand{\studyperiod}{Semester 2, 2025}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage[svgnames]{xcolor}
+\usepackage[T1]{fontenc}
+\usepackage[margin=2.7cm,a4paper]{geometry}
+
+\usepackage[osf]{mathpazo}
+\usepackage{amsmath,amsthm,amsfonts,amssymb,mathtools}
+
+\usepackage{hyperref,url}
+\usepackage{xstring}
+
+\usepackage{environ}
+\usepackage{tasks}
+
+\usepackage{etoolbox}
+\usepackage{fourier-orns}
+\usepackage{kvoptions}
+\usepackage[]{units}
+\usepackage[normal]{subfigure}
+
+% Algorithms package
+
+% \usepackage[ruled]{algorithm2e} % You can use the algorithm2e if you'd like
+\usepackage[noend]{algpseudocode} % You may get rid of noend if you like. 
+\usepackage{algorithm}
+\usepackage{algorithmicx}
+
+% No indents
+\usepackage[parfill]{parskip}
+
+% Tree diagram
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric}
+
+% Graphics and images
+\usepackage{graphicx}
+\graphicspath{ {./images/} }
+
+% Header
+\usepackage{fancyhdr}
+\addtolength{\headheight}{2.5pt}
+\pagestyle{fancy}
+\fancyhead{} 
+\fancyhead[L]{\sc \studyunit}
+\fancyhead[R]{\sc \studyperiod}
+\fancyfoot{}
+\fancyfoot[R]{\thepage}
+\renewcommand{\headrulewidth}{0.75pt}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Some basic mathematics commands!
+
+\DeclarePairedDelimiter\ceil{\lceil}{\rceil}
+\DeclarePairedDelimiter\abs{\lvert}{\rvert}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Macros
+\newcounter{weekcntr}
+\newcommand*{\week}{
+    \stepcounter{weekcntr}
+    \section*{Week \theweekcntr}
+}
+    
+ 
+\begin{document}
+    \begin{titlepage}
+        \begin{center}
+            \vspace*{1cm}
+
+            \section*{MATH1064 Study Notes}
+
+            \vspace{0.25cm}
+            University of Sydney \\
+            \studyperiod \\
+            \studyunit
+
+            \vfill
+            \includegraphics{thumbs_up_emoji.png}
+            \vspace{1.5cm}
+
+            Happy studying!
+            
+       \vspace{0.8cm}
+            
+        \end{center}
+    \end{titlepage}
+    
+    \week{}
+    \subsubsection*{Introduction to Discrete Maths}
+
+        Discrete maths is the study of "discrete structures", this includes objects which are:
+        \begin{itemize}
+            \item Countable or listable
+            \item Distinct and unconnected.
+        \end{itemize}
+
+        There are two objectives of {\studyunit}:
+        \begin{enumerate}
+            \item Develop mathematical reasoning skills. This involves using \textbf{logic and proofs}, and 
+            \textbf{rigorously} (exhausting all possibilities) finding solutions to problems.
+            \item Study \textbf{discrete structures} and their properties including:
+            \begin{itemize}
+                \item Sets and functions
+                \item Prime numbers and modular arithmetic
+                \item Graphs and networks
+                \item Counting and probability.
+            \end{itemize}
+        \end{enumerate}
+
+    \newpage
+    \week{}
+    
+\end{document}
