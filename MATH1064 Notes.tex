@@ -17,6 +17,7 @@
 \usepackage[svgnames]{xcolor}
 \usepackage[T1]{fontenc}
 \usepackage[margin=2.7cm,a4paper]{geometry}
+\renewcommand{\baselinestretch}{1.15}
 
 \usepackage[osf]{mathpazo}
 \usepackage{amsmath,amsthm,amsfonts,amssymb,mathtools}
@@ -69,14 +70,21 @@
 \DeclarePairedDelimiter\ceil{\lceil}{\rceil}
 \DeclarePairedDelimiter\abs{\lvert}{\rvert}
 
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\R}{\mathbb{R}}
+\newtheorem{theorem}{Theorem}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Macros
-\newcounter{weekcntr}
-\newcommand*{\week}{
-    \stepcounter{weekcntr}
-    \section*{Week \theweekcntr}
-}
+% \newcounter{weekcntr}
+% \newcommand*{\week}{
+%     \stepcounter{weekcntr}
+%     \section{Week \theweekcntr}
+% }
     
  
 \begin{document}
@@ -101,9 +109,12 @@
             
         \end{center}
     \end{titlepage}
+
+    \tableofcontents
     
-    \week{}
-    \subsubsection*{Introduction to Discrete Maths}
+    \newpage
+    \section{Introduction to Discrete Maths and Set Theory}
+    \subsection{Introduction to Discrete Maths}
 
         Discrete maths is the study of "discrete structures", this includes objects which are:
         \begin{itemize}
@@ -123,17 +134,245 @@
                 \item Counting and probability.
             \end{itemize}
         \end{enumerate}
+    
+        \subsection{Introduction to Set Theory}
+        \subsubsection{Definitions}
+        \begin{definition}[Set]
+            \label{def:set}
+            A \textbf{set} $S$ is a collection of objects, called \textbf{elements} of $S$.
+        \end{definition}
+
+        \begin{itemize}
+                \item If $x$ is an element of $S$, $x \in S$
+                \item If not, then $x \notin S$.
+            \end{itemize}
+
+        Sets can be finite or infinite:
+        \begin{itemize}
+            \item Example (finite): $S = \{2, 3, 5\}$
+            \item Example (infinite): $S = \{0, 1, 2, \dots\} = \N$ \\
+        \end{itemize}
+
+        \begin{definition}[Set Equivalence]
+            Two sets $S$ and $T$ are said to be equal if they contain the same elements, regardless of \textbf{order} or 
+            \textbf{repetition}.
+        \end{definition}
+
+        \begin{itemize}
+            \item Example 1: \\
+            \begin{align*}
+                S &= \{1,1,5,3\} \\
+                T &= \{1,3,5\} \\
+                S &= T
+            \end{align*}
+            \item Example 2:
+            \begin{align*}
+                S &= \{-1, 0, 1, \dots\} \\
+                T &= \{0, 1, \dots\} \\
+                S &\neq T
+            \end{align*}
+        \end{itemize}
+
+        \begin{definition}[Empty Set]
+            \label{def:empty-set}
+            The \textbf{empty set} is a unique set containing no elements. $\emptyset = \{\}$.\\
+        \end{definition}
+        \begin{definition}[Singlton Set]
+            \label{def:singleton-set}
+            A \textbf{singleton set} has only one element, e.g. $S = \{x\}$ or $S = \{x, x, x\}$
+        \end{definition}
+
+        \subsubsection{Unpacking Sets}
+        Sets can contain other sets as elements, inner sets are considered distinct elements even if 
+        their contents are the same as other elements in the outer set. This is because when we unpack sets,
+        we only remove outer curly braces \{ \}.
+        \begin{align*}
+            S &= \{1, 2, \{1\} \} \\
+            \abs{S} &= 3 \text{ distinct elements}
+        \end{align*}
+
+        \subsubsection{Sets with Properties}
+        We can describe sets using \textbf{set builder notion} which indicates the properties of a set.
+        \begin{align*}
+            A = \{x \in S \mid P(x) \}
+        \end{align*}
+        "The set A consists of all elements $x$ of $S$ such that $x$ has property $P$".\\\\
+        Examples:
+            \begin{align*}
+                \{x \in \N \mid 3 \le x \le 5\} &= \{3,4,5\} \\
+                \{y \in \Z \mid y=2k \text{ for some } k \in \Z\} &= \{\dots, -2, 0, 2, \dots\} \\
+                \{2z + 1 \mid z \in \N\} &= \{1, 3, 5, \dots\}
+            \end{align*}
+        
+            \subsubsection{Russel's Paradox}
+            Define a set $T = \{S, set \mid S \notin S\}$. The set $T$ contains any set $S$ which does not contain itself.
+            
+            Consider if $T \in T$:
+            \begin{itemize}
+                \item If $T \in T$: $T$ does not satisfy the condition.
+                \item If $T \notin T$: $T$ does satisfy the condition, thus $T \in T$ according to our definition.
+            \end{itemize}
+            This induces a contradiction, hence demonstrating that we need \textbf{axioms} which \textbf{rigorously} state
+            how to define and build sets.
+        
+            \subsubsection{Operations on Sets}
+            \begin{definition}[Union]
+                \label{def:union}
+                Given two sets $S$ and $T$, the \textbf{union} of $S$ and $T$ is the set containing all elements from $S$ and $T$.
+                This is written as $S \cup T$ where $x \in S$ \textbf{OR} $x \in T$.
+            \end{definition}
+            \begin{itemize}
+                \item Example 1: $\{1,2,3\} \cup \{2,5\} = \{1,2,3,5\}$
+                \item Example 2: $\{0,1,2,\dots\} \cup \{0,-1,-2,\dots\} = \Z$ \\
+            \end{itemize}
+
+            \begin{definition}[Intersection]
+                \label{def:intersection}
+                Given two sets $S$ and $T$, the \textbf{intersection} of $S$ and $T$ is the set of elements belonging to
+                both $S$ and $T$. This is written as $S \cap T$ where $x \in S$ \textbf{AND} $x \in T$.
+            \end{definition}
+            \begin{itemize}
+                \item Example 1: $\{1,2,3\} \cap \{2,5\} = \{2\}$
+                \item Example 2: $\{1,2,3,\dots\} \cap \{-1,-2,-3,\dots\} = \emptyset$ \\
+            \end{itemize}
+
+            Multiple unions and intersections can be taken at a time.
+            \begin{align*}
+                \displaystyle\bigcup_{i=1}^{3} \{i, 2i\} &= \{1,2\} \cup \{2,4\} \cup \{3,6\} \\
+                &= \{1,2,3,4,6\}
+            \end{align*}
+            \begin{align*}
+                \displaystyle\bigcap_{i=1}^{3} \{i, i+1, i+2\} &= \{1,2,3\} \cap \{2,3,4\} \cap \{3,4,5\} \\
+                &=\{3\}
+            \end{align*}
+            
+            Formally, for sets $A_1,A_2,\dots,A_i$ we define the set $A_i$ as:
+            \begin{equation*}
+                \displaystyle\bigcup_{i=1}^{\infty} A_i = \{x \mid x \in A_{k} \text{ for SOME } k \ge 1\}
+            \end{equation*}
+            That is for an infinite series of unions, $x$ is an element that appears \textbf{at least once} 
+            in the sets $A_k$ for $k \ge 1$.
+
+            And similarly for intersections, we define the set $A_i$ as:
+            \begin{equation*}
+                \displaystyle\bigcap_{i=1}^{\infty} A_i = \{x \mid x \in A_{k} \text{ for ALL } k \ge 1\}
+            \end{equation*}
+            That is, for an infinite series of intersections, $x$ is an element which appears in \textbf{all} 
+            sets $A_k$ for $k \ge 1$.
+
+            
+            \subsubsection{Subsets}
+            \begin{definition}[Subsets]
+                \label{def:subset}
+                A set $S$ is a \textbf{subset} of another set $T$ if every element of $S$ is an element of $T$. This
+                is written as $S \subset T$.
+            \end{definition}
+
+            Additionally, if $S$ is a subset of $T$ but is not equal to $T$, then it is considered a \textbf{proper subset},
+            denoted as $S \subseteq T$.
+            
+            For example,
+            \begin{align*}
+                S &= \{2,4,6\} \\
+                T &= \{2,4,6,8\}\\
+                S &\subseteq T, \text{ since $8 \notin S$}
+            \end{align*}
+
+
+            \subsubsection{Proving Subset Relationships}
+            To prove $S \subseteq T$, we need to:
+            \begin{enumerate}
+                \item Take an arbitrary element of $S$, which we  call $x$
+                \item Show that $x \in T$ \\
+            \end{enumerate}
+
+            \textbf{Example:} Let $S$ and $T$ be sets where,
+            \begin{align*}
+                S &= \{2n \mid n \in \N, n \ge 1\} \\
+                T &= \{2^{m} \mid m \in \N\}
+            \end{align*}
+            \begin{proof}
+                Let $x \in S$, by definition $x=2^n$ for some $n \ge 1$.
+                \begin{align*}
+                    x &=2^n \\
+                    x &=2(2^{n-1}), \text{ rewriting $x$}
+                \end{align*}
+                Since $n \ge 1$, $n-1 \ge 0$ meaning that $n-1 \in \N$ $\implies 2^{n-1} \in \N$.
+                Because $2^{n-1}$ is a natural number, we can rewrite $x = 2m$ where $m=2^{n-1}$ as we know
+                $m \in \N$, $x \in T \implies S \subseteq T$.
+            \end{proof}
+
+            \subsubsection{Proving Equality Relationships}
+            To prove that $S=T$, we need a \textbf{"double containment proof"} which shows that both sets have the same
+            elements, that is:
+            \begin{enumerate}
+                \item Every $x \in S$ also satisifes $x \in T$
+                \item Every $x \in T$ also satisfies $x \in S$
+            \end{enumerate}
+            \textbf{Example:} Let $S$ and $T$ be sets where,
+            \begin{align*}
+                S &= \{2m+1 \mid m \in \Z\} \\
+                T &= \{2r-1 \mid r \in \Z\}
+            \end{align*}
+            \begin{proof}[Proof. Show $S \subseteq T$]
+                Let $x \in S$, then $x = 2m+1$ for some $m \in Z$. \\
+                Let $r = m+1$.
+                \begin{align*}
+                    x &= 2m + 1 \\
+                    x &= 2m + 2 - 1, \text{ rewriting $x$} \\
+                    x &= 2(m + 1) - 1, \text{ notice $m+1 = r$} \\
+                    x &= 2r - 1, \text{this is the same as $x \in T$}
+                \end{align*}
+                $x = 2r -1$ for some $r \in \Z$. Thus, $x \in T \implies S \subseteq T$.
+            \end{proof}
+
+            \begin{proof}[Proof. Show $T \subset S$]
+                Let $x \in T$, then $x = 2r-1$ for some $r \in \Z$. \\
+                Let $m = r - 1$.
+                \begin{align*}
+                    x &= 2r-1 \\
+                    x &= 2r - 2 + 1 \\
+                    x &= 2(r-1) + 1 \\
+                    x &= 2m + 1
+                \end{align*}
+                $x = 2m + 1$ for some $m \in \Z$. Thus, $x \in S \implies T \subseteq T$.
+            \end{proof}
+            Since $S \subseteq T$ and $T \subseteq S$, the two sets must have the same elements and are equal, $S = T$.
+
+
+            \subsection{More Set Theory}
+            \subsubsection{Cardinality}
+            The \textbf{cardinality} of a set $S$ in a rough sense refers to the size of $S$, i.e. the no. of elements in
+            $S$.
+            \begin{itemize}
+                \item If $S$ is finite, then $\abs{S}$ is the number of distinct elements in $S$.
+                \item If $S$ is infinite, then we write $\abs{S} = \infty$. 
+            \end{itemize}
+            Note that there can be \textbf{different infinite cardinalities}, or sizes of infinities. A basic example of this
+            is the set of natural numbers $\N$ compared to the set of real numbers $\R$.
+
+            \subsubsection{Set Differences}
+            \begin{definition}[Set Difference]
+                \label{def:set-difference}
+                Given two sets $S$ and $T$, the \textbf{set difference} is the set of elements $x \in S$ and $x \notin S$.
+                This is written as $S \backslash T$ or $S - T$.
+            \end{definition}
+            \begin{itemize}
+                \item Example 1: $\{1,2,3\}\backslash \{2, 5\} = \{1, 3\}$
+                \item Example 2: $\{0, 1, 2, \dots\} \backslash \{0, -1, -2, \dots\} = \{1, 2, \dots\}$
+                \item Example 3: $\N \backslash \Z = \emptyset$
+            \end{itemize}
 
     \newpage
-    \week{}
+    \section{Week 2}
 
     \newpage
-    \week{}
+    \section{Week 3}
 
     \newpage
-    \week{}
+    \section{Week 4}
 
     \newpage
-    \week{}
+    \section{Week 5}
     
 \end{document}
