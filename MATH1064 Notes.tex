@@ -32,7 +32,8 @@
 \usepackage{fourier-orns}
 \usepackage{kvoptions}
 \usepackage[]{units}
-\usepackage[normal]{subfigure}
+% \usepackage[normal]{subfigure}
+\usepackage{subfig}
 
 % Algorithms package
 
@@ -70,9 +71,13 @@
 \DeclarePairedDelimiter\ceil{\lceil}{\rceil}
 \DeclarePairedDelimiter\abs{\lvert}{\rvert}
 
+\newcommand{\lt}{\ensuremath <}
+\newcommand{\gt}{\ensuremath >}
 \newcommand{\Z}{\mathbb{Z}}
 \newcommand{\N}{\mathbb{N}}
 \newcommand{\R}{\mathbb{R}}
+\newcommand{\U}{\mathbb{U}}
+\newcommand{\compline}[1]{\overline{#1}}
 \newtheorem{theorem}{Theorem}
 \theoremstyle{definition}
 \newtheorem{definition}{Definition}
@@ -361,6 +366,183 @@
                 \item Example 1: $\{1,2,3\}\backslash \{2, 5\} = \{1, 3\}$
                 \item Example 2: $\{0, 1, 2, \dots\} \backslash \{0, -1, -2, \dots\} = \{1, 2, \dots\}$
                 \item Example 3: $\N \backslash \Z = \emptyset$
+            \end{itemize}
+
+            \subsubsection{Universal Set}
+            \begin{definition}[Universal Set]
+                \label{def:universal-set}
+                Let $\U$ be some \textbf{universal set} which is the set containing all elements of which other sets are
+                subsets. The universal set is context dependent.
+            \end{definition}
+            \begin{itemize}
+                \item $\U = \Z$, if working with number theory
+                \item $\U = \R^2$, if working with plane geometry
+            \end{itemize}
+
+            \subsubsection{Complementary Set}
+            \begin{definition}[Complement]
+                \label{def:complement}
+                For a set $S \subseteq \U$, the \textbf{complement} of $S \in \U$ is given by $x \in \U$ where\
+                $x \notin S$. This is written as $\compline{S}$ or $S^{\complement}$.
+            \end{definition}
+            In other words, $\compline{S}$ is the set containing all elements not in $S$, where the range of elements
+            considered is constrained by $\U$. This resolves the Russel Paradox.
+
+            For example, if $\U = \Z$:
+            \begin{itemize}
+                \item $\compline{\{1,2,3\}} = \{\dots, -1, 0, 4, \dots\}$
+                \item $\compline{\{x \in \Z \mid x \gt 0\}} = \{x \in \Z \mid x \lt 0\}$
+                \item $\compline{\Z} = \emptyset$
+            \end{itemize}
+
+            \subsubsection{Venn Diagrams}
+            \textbf{Venn Diagrams} are tools used to visualise relationships between sets.
+
+            \usetikzlibrary {patterns,patterns.meta}
+            \def\circleA{(0,0) circle (1.5cm)}
+            \def\circleB{(0:2cm) circle (1.5cm)}
+            \def\rectangle1{(-2,-2) rectangle (4,2)}
+            \colorlet{circle edge}{black!50}
+            \colorlet{circle area}{black!20}
+            \tikzset{filled/.style={fill=circle area, draw=circle edge, thick},
+            outline/.style={draw=circle edge, thick}}
+
+            \setlength{\parskip}{5mm}
+            \begin{figure}[hbt!]
+            \centering
+            \subfloat{
+                \begin{tikzpicture}
+                    \begin{scope}
+                        \draw \rectangle1;
+                        \clip \circleA;
+                        \fill[filled] \circleB;
+                    \end{scope}
+                    \draw[outline] \circleA node {$A$};
+                    \draw[outline] \circleB node {$B$};
+                    \node[anchor=south] at (current bounding box.north) {$A \cap B$};
+                \end{tikzpicture}
+            }
+            \hspace{50px}
+            \subfloat{
+                \begin{tikzpicture}
+                    \begin{scope}
+                        \draw \rectangle1;
+                        \draw[pattern= north west lines] \circleA;
+                        \draw[pattern= north west lines] \circleB;
+                    \end{scope}
+                    \draw[outline] \circleA node {$A$};
+                    \draw[outline] \circleB node {$B$};
+                    \node[anchor=south] at (current bounding box.north) {$A \cup B$};
+                \end{tikzpicture}
+            }
+            \vspace{10px}
+            \subfloat{
+                \begin{tikzpicture}
+                    \begin{scope}
+                        \draw \rectangle1;
+                        \draw[pattern= north west lines] \circleA;
+                        \draw[pattern= north west lines, fill=white] \circleB;
+                    \end{scope}
+                    \draw[outline] \circleA node {$A$};
+                    \draw[outline] \circleB node {$B$};
+                    \node[anchor=south] at (current bounding box.north) {$A \backslash B$};
+                \end{tikzpicture}
+            }
+            \hspace{50px}
+            \subfloat{
+                \begin{tikzpicture}
+                    \begin{scope}
+                        \draw[pattern= north west lines] \rectangle1;
+                        \draw[outline, fill=white] \circleA;
+                        \draw[outline, fill=white] \circleB;
+                    \end{scope}
+                    \draw[outline] \circleA node {$A$};
+                    \draw[outline] \circleB node {$B$};
+                    \node[anchor=south] at (current bounding box.north) {$\compline{A \cup B}$};
+                \end{tikzpicture}
+            }
+            \end{figure}
+
+            Venn diagrams are useful for intuition and can be used to guide proofs, but are not sufficient as rigorous proofs in
+            of themselves.
+
+            \textbf{Example:} Prove if $A \cap (B \cup C) = (A \cap B) \cup (A \cap C)$
+
+            \def\circleC{(1,-1.5) circle (1.5cm)}
+            \def\rectangle2{(-2,-3.5) rectangle (4,2)}
+
+            \setlength{\parskip}{5mm}
+            \begin{figure}[hbt!]
+            \centering
+            \subfloat{
+                \begin{tikzpicture}
+                    \begin{scope}
+                        \draw \rectangle2;
+                        \clip \circleB \circleC;
+                        \fill[filled] \circleA;
+                    \end{scope}
+                    \draw[anchor=south, outline] \circleA node {$A$};
+                    \draw[anchor=south, outline] \circleB node {$B$};
+                    \draw[anchor=north, outline] \circleC node {$C$};
+                    \node[anchor=south] at (current bounding box.north) {$A \cap (B \cup C)$};
+                \end{tikzpicture}
+            }
+            \hspace{50px}
+            \subfloat{
+                \begin{tikzpicture}
+                    \begin{scope}
+                        \draw \rectangle2;
+                        \draw \rectangle2;
+                        \clip \circleB \circleC;
+                        \fill[filled] \circleA;
+                    \end{scope}
+                    \draw[anchor=south, outline] \circleA node {$A$};
+                    \draw[anchor=south, outline] \circleB node {$B$};
+                    \draw[anchor=north, outline] \circleC node {$C$};
+                    \node[anchor=south] at (current bounding box.north) {$(A \cap B) \cup (A \cap C)$};
+                \end{tikzpicture}
+            }
+            \end{figure}
+
+            \begin{proof}[Proof. Double Containment]
+                First, show $A \cap (B \cup C) \subseteq (A \cap B) \cup (A \cap C)$. \\
+                Let $x \in A \cap (B \cup C)$:
+                \begin{align*}
+                    \text{Then $x \in A$ and $x \in (B \cup C)$} \\
+                    x \in (B \cup C) \implies x \in B \text{ or } x \in C \\
+                    \text{if $x \in B$}, x \in (A \cap B) \implies x \in (A \cap B) \cup (A \cap C) \\
+                    \text{if $x \in C$}, x \in (A \cap C) \implies x \in (A \cap C) \cup (A \cap B) \\
+                    \implies A \cup  (B \cap C) \subseteq (A \cap B) \cup (A \cap C)
+                \end{align*}
+
+                This proof works because we know that if $x \in (A \cap B)$, then suppose we expand the set ($A \cap B$) by
+                including another arbitrary set, say $(A \cap C)$. We can implicitly assume $x$ is an element of $(A \cap B) \cup (A \cap C)$
+                since we are simply expanding the scope of the set.
+
+                Second, show $(A \cap B) \cup (A \cap C) \subseteq A \cap (B \cup C)$. \\
+                Let $x \in (A \cap B) \cup (A \cap C)$:
+
+                \begin{align*}
+                    \text{Then $x \in A$ and $x \in B$} \\
+                    \implies x \in (B \cup C) \\
+                    \implies x \in A \cap (B \cup C) \\
+                \end{align*}
+                \begin{align*}
+                    \text{Then $x \in A$ and $x \in C$} \\
+                    \implies x \in (C \cup B) \\
+                    \implies x \in A \cap (C \cup B)
+                \end{align*}
+                
+                Thus, $(A \cap B) \cup (A \cap C) \subseteq A \cap (B \cup C)$, indicating that both sets are equal.
+
+            \end{proof}
+
+            \subsubsection{Set Identities}
+            \begin{itemize}
+                \item $A \cap (B \cup C) = (A \cap B) \cup (A \cap C)$
+                \item $A \cup (B \cap C) = (A \cup B) \cap (A \cup C)$
+                \item $\compline{A \cap B} = \compline{A} \cup \compline{B}$
+                \item $A \cap (A \cup B) = A$
             \end{itemize}
 
     \newpage
