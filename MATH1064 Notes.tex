@@ -45,9 +45,11 @@
 % No indents
 \usepackage[parfill]{parskip}
 
-% Tree diagram
+% Tikz diagrams
 \usepackage{tikz}
-\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{shapes.geometric,patterns,patterns.meta,arrows,positioning,fit,calc}
+\pgfdeclarelayer{background}
+\pgfsetlayers{background,main}
 
 % Graphics and images
 \usepackage{graphicx}
@@ -76,6 +78,7 @@
 \newcommand{\Z}{\mathbb{Z}}
 \newcommand{\N}{\mathbb{N}}
 \newcommand{\R}{\mathbb{R}}
+\newcommand{\Q}{\mathbb{Q}}
 \newcommand{\U}{\mathbb{U}}
 \newcommand{\compline}[1]{\overline{#1}}
 \newtheorem{theorem}{Theorem}
@@ -398,7 +401,6 @@
             \subsubsection{Venn Diagrams}
             \textbf{Venn Diagrams} are tools used to visualise relationships between sets.
 
-            \usetikzlibrary {patterns,patterns.meta}
             \def\circleA{(0,0) circle (1.5cm)}
             \def\circleB{(0:2cm) circle (1.5cm)}
             \def\rectangle1{(-2,-2) rectangle (4,2)}
@@ -415,7 +417,7 @@
                     \begin{scope}
                         \draw \rectangle1;
                         \clip \circleA;
-                        \fill[filled] \circleB;
+                        \draw[pattern=north west lines] \circleB;
                     \end{scope}
                     \draw[outline] \circleA node {$A$};
                     \draw[outline] \circleB node {$B$};
@@ -479,7 +481,7 @@
                     \begin{scope}
                         \draw \rectangle2;
                         \clip \circleB \circleC;
-                        \fill[filled] \circleA;
+                        \draw[pattern= north west lines] \circleA;
                     \end{scope}
                     \draw[anchor=south, outline] \circleA node {$A$};
                     \draw[anchor=south, outline] \circleB node {$B$};
@@ -494,7 +496,7 @@
                         \draw \rectangle2;
                         \draw \rectangle2;
                         \clip \circleB \circleC;
-                        \fill[filled] \circleA;
+                        \draw[pattern=north west lines] \circleA;
                     \end{scope}
                     \draw[anchor=south, outline] \circleA node {$A$};
                     \draw[anchor=south, outline] \circleB node {$B$};
@@ -547,6 +549,210 @@
 
     \newpage
     \section{Week 2}
+    \subsection{Power Sets and Cartesian Planes}
+    \subsubsection{Power Set}
+    \begin{definition}[Power Set]
+        \label{power-set}
+        For a set $S$ the \textbf{power set} of $S$ is the set which contains all possible
+        subsets of $S$. This is denoted as $P(S) = \{A \mid A \subseteq S\}$.
+    \end{definition}
+    For example,
+    \begin{itemize}
+        \item $S = \{a, b\} \implies P(S) = \{\emptyset, \{a\}, \{b\}, \{a,b\}\}$
+        \item $S = \emptyset \implies P(S) = \{\emptyset\}$
+        \item $S = \{1,2,3\} \implies P(S) = \{\emptyset, \{1\},\{2\},\{3\},\{1,2\},\{1,3\}, \{2,3\},\{1,2,3\}\}$ \\
+    \end{itemize}
+
+    \begin{theorem}[Cardinality of the Power Set]
+        Let $S$ be a finite set with $\abs{S}=n$, then $\abs{P(S)}=2^{n}$
+    \end{theorem}
+
+    \subsubsection{Cartesian Product}
+    \begin{definition}[Cartesian Product]
+        \label{def:cartesian-product}
+        For two sets $A$ and $B$, the cartesian product $A \times B$ is given by the
+        set of ordered pairs, $A \times B = \{(a, b) \mid a \in A, b \in B \}$.\\\\
+        \textbf{Note:} in ordered pairs, the order of elements, and repetition matter
+        (like cartesian coordinates).
+    \end{definition}
+
+    \textbf{Example:} $A = {a,b}. B = {1, 2}$
+    \begin{itemize}
+        \item $A \times B = \{(a,1), (a,2), (b,1), (b,2)\}$
+        \item $B \times A = \{(1,a), (1,b), (2,a), (2,b)\}$ \\
+    \end{itemize}
+
+    \begin{theorem}[Cardinality of Cross Product]
+        The cardinality of the cross product of two sets $A$ and $B$ is given by
+        $\abs{n \times m}$ where $\abs{A} = n$ and $\abs{B} = m$.
+    \end{theorem}
+
+    The cross product of an empty set is always the empty set. For example, if $A=\emptyset$,
+    $B=\{1,2\}$, then $A \times B = \emptyset$.
+
+    $A \times B = B \times A \iff A = B$ or when $A$ or $B = \emptyset$.
+    \begin{proof}
+        If $A$ or $B = \emptyset$, then there is nothing to prove. \\
+        Otherwise, assume $A \times B = B \times A$. \\\\
+        \textbf{Show} $A \subseteq B$. \\
+        Let $x \in A$ and choose some $y \in B$:
+        \begin{align*}
+            \text{Then } (x,y) \in A \times B \\
+            A \times B = B \times A \implies (x,y) \in B \times A \\
+            \implies x \in B \\
+            \implies A \subseteq B
+        \end{align*}
+        
+        \textbf{Show} $B \subseteq A$. \\
+        \begin{align*}
+            (y,x) \in B \times A \\
+            A \times B = B \times A \implies (y, x) \in A \times B \\
+            \implies y \in A \\
+            \implies B \subseteq A
+        \end{align*}
+
+        Therefore, $A = B$ by double containment.
+        
+    \end{proof}
+
+    \subsubsection{Functions}
+    \begin{definition}[Function]
+        \label{def:function}
+        Given two sets $X$ and $Y$, the function $f$ from $X$ to $Y$, 
+        written as $f:X \rightarrow Y$, maps each $x \in X$ to exactly one $y \in Y$
+        (see vertical line test).
+    \end{definition}
+
+    \textbf{Important Criteria:}
+    \begin{itemize}
+        \item Every $x \in X$ maps somewhere, i.e. $X \rightarrow Y$.
+        \item Every $x \in X$ maps to \textbf{at most one} $y \in Y$. \\
+    \end{itemize}
+
+    \begin{figure}[!hbt]
+        \centering
+        \begin{tikzpicture}[
+            every node/.style={on grid},
+            set/.style={circle,inner sep=2pt},
+            every fit/.style={draw,ellipse,text width=25pt},
+            >=latex
+        ]
+        
+        % Draw domain %
+        \node[set] (x1) {$x_1$};
+        \node[set,below = of x1] (x2) {$x_2$};
+        \node[set,below = of x2] (x3) {$x_3$};
+        \node[above = of x1,anchor=south] (X) {$X$};
+
+        % Draw co-domain %
+        \node[set, right=3cm of x1] (y1) {$y_1$};
+        \node[set, below = of y1] (y2) {$y_2$};
+        \node[set, below = of y2] (y3) {$y_3$};
+        \node[above = of y1,anchor=south] (Y) {$Y$};
+        
+        % Draw arrows %
+        \draw[->] (x1) -- node[label=above:$f$] {} (y1);
+        \draw[->] (x2) -- node[label=above:$f$] {} (y2);
+        \draw[->] (x3) -- node[label=above:$f$] {} (y3);
+        
+        % Draw ellipses %
+        \begin{pgfonlayer}{background}
+            \node[fit = (x1) (x3) ] {};
+            \node[fit = (y1) (y3) ] {};
+        \end{pgfonlayer}
+
+        % Label %
+        \node[anchor=south] at (current bounding box.north) {$f:X \to Y$};
+        \end{tikzpicture}
+    \end{figure}
+
+    \textbf{Examples: }
+    \begin{itemize}
+        \item $f: \N \to \N, f(n) = n!$ is a function
+        \item $f: \R \to \R, f(x) = \ln{x}$ is not a function as $f(x)$ is 
+        undefined for $x \lt 0$
+        \item $f: \Q \to \N, f(\frac{n}{m}) = n$ is not a function as there are multiple
+        ways to write the same input with different outputs, e.g. $\frac{3}{2} = 3$ but $\frac{6}{4} = 6$.
+    \end{itemize}
+
+    \subsubsection{Function Terminology}
+    Let $f:X \to Y$ be a function. Then we say:
+    \begin{itemize}
+        \item $X$ is called the \textbf{domain} of $f$
+        \item $Y$ is called the \textbf{co-domain} of $f$
+        \item $f(x) \in Y$ is called the \textbf{image} of $X$ (also called range).\\
+    \end{itemize}
+
+    \begin{figure}[!hbt]
+        \centering
+        \begin{tikzpicture}[
+            every node/.style={on grid},
+            set/.style={circle,inner sep=2pt},
+            every fit/.style={draw,ellipse,text width=25pt},
+            >=latex
+        ]
+        
+        % Draw domain %
+        \node[set] (x1) {$x_1$};
+        \node[set,below = of x2] (x3) {$x_3$};
+        \node[above = of x1,anchor=south] (X) {$X$};
+
+        % Draw co-domain and image of x %
+        \node[set, right=3cm of x1] (cd1) {};
+        \node[set, below= of cd1] (y1) {$f(x_1)$};
+        \node[set, below= of y1] (y2) {$f(x_2)$};
+        \node[set, below= of y2] (cd2) {};
+        \node[above = of cd1,anchor=south] (Y) {$Y$};
+        \node[above = of y1,anchor=south] (I) {Image};
+        
+        % Draw arrows %
+        \draw[->] (x1) -- node[label=above:$f$] {} (y1);
+        \draw[->] (x2) -- node[label=above:$f$] {} (y2);
+        
+        % Draw ellipses %
+        \begin{pgfonlayer}{background}
+            \node[fit = (x1) (x3) ] {};
+            \node[fit = (cd1) (cd2), minimum width = 3cm, minimum height = 4cm] {};
+            \node[fit = (y1) (y2)] {};
+        \end{pgfonlayer}
+        \end{tikzpicture}
+    \end{figure}
+
+    Similarly, the \textbf{pre-image} of a y is the set of all input values which
+    map to the co-domain $Y$. This is written as 
+    $f^{-1}(y)=\{x\in X \mid f(x) = y\} \subseteq X$. In essence, it explains where
+    does $y$ come from under the function $f(x)$.
+
+    \subsubsection{Identity Function}
+    \begin{definition}[Identity Function]
+        \label{def:identity-function}
+        The \textbf{identity function} is a function which maps a set to iteself. For any set $S$,
+        $i_x:X \to X$ is defined by $i_x(a) = a, a \in X$.       
+    \end{definition}
+
+    \subsubsection{Floors and Ceilings}
+    \begin{definition}[Floor]
+        \label{def:floor}
+        For $x \in \R$, the floor of $x$ is the unique integer $n$ such that $n \le x \le n+1$.
+        In essence, it is "rounding down" $x$ in terms of value. It is written as $\lfloor x \rfloor$. \\
+    \end{definition}
+
+    \begin{definition}[Ceiling]
+        \label{def:ceiling}
+        For $x \in \R$, the ceiling of $x$ is the unique integer $m$ such that $m-1 \le x \le m$.
+        In essence, it is "rounding up" $x$ in terms of value. It is written as $\lceil x \rceil$.
+    \end{definition}
+
+    \textbf{Note: } both floor and ceiling are functions $f: \R \to \Z$. 
+    Additionally, for $x \lt 0$, the rounding up/down of these functions are reversed.
+
+    \textbf{Examples:}
+    \begin{itemize}
+        \item $\lfloor 2.5 \rfloor = 2$
+        \item $\lfloor -2.5 \rfloor = -3$
+        \item $\lceil 2.5 \rceil = 3$
+        \item $\lceil -2.5 \rceil = -2$
+    \end{itemize}
 
     \newpage
     \section{Week 3}
