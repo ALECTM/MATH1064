@@ -34,6 +34,7 @@
 \usepackage[]{units}
 % \usepackage[normal]{subfigure}
 \usepackage{subfig}
+\usepackage{array}
 
 % Algorithms package
 
@@ -753,6 +754,276 @@
         \item $\lceil 2.5 \rceil = 3$
         \item $\lceil -2.5 \rceil = -2$
     \end{itemize}
+
+    \subsection{Properties of Functions}
+    \subsubsection{Equality of Functions}
+    \begin{definition}[Equal Functions]
+        \label{def:equal-functions}
+        Two functions, $f: X \to Y$ and $g: X \to Y$ are said to be equal if
+        $f(x) = g(x)$ for all $x \in X$.
+    \end{definition}
+
+    \textbf{Example:} $f$ and $g$ are equal.
+    \begin{itemize}
+        \item $f(x) = n!$
+        \item $g(x) = \frac{(n+1)!}{n+1} = \frac{(n+1)n!}{n+1}=n!$
+    \end{itemize}
+
+    \textbf{Example:} $f$ and $g$ are not equal (not same co-domain).
+    \begin{itemize}
+        \item $f:\N \to \N, f(n) = n^2$
+        \item $g:\N \to \R, f(n) = n^2$
+    \end{itemize}
+
+    \subsubsection{Surjective/Onto}
+    \begin{definition}
+        \label{def:surjective}
+        A function $f: X \to Y$ is considered \textbf{onto} or \textbf{surjective} if
+        for all $y \in Y$, there exists some $f(x) = y$, $x \in X$. In other words,
+        the co-domain has no orphans; every $y$ is the image of at least one $f(x)$.
+    \end{definition}
+
+    \textbf{Example:} \\
+    The below function is \textbf{not} a surjective function since $y_3$ is "orphaned".
+    \begin{figure}[!hbt]
+        \centering
+        \begin{tikzpicture}[
+            every node/.style={on grid},
+            set/.style={circle,inner sep=2pt},
+            every fit/.style={draw,ellipse,text width=25pt},
+            >=latex
+        ]
+        
+        % Draw domain %
+        \node[set] (x1) {$x_1$};
+        \node[set,below = of x1] (x2) {$x_2$};
+        \node[set,below = of x2] (x3) {$x_3$};
+        \node[above = of x1,anchor=south] (X) {$X$};
+        \node[left = of x1,anchor=east] (X) {"Parent"};
+
+        % Draw co-domain %
+        \node[set, right=3cm of x1] (y1) {$y_1$};
+        \node[set, below = of y1] (y2) {$y_2$};
+        \node[set, below = of y2, color=red] (y3) {$y_3$};
+        \node[above = of y1,anchor=south] (X) {$Y$};
+        \node[right = of y1,anchor=west] (Y) {"Child"};
+        
+        % Draw arrows %
+        \draw[->] (x1) -- node[] {} (y1);
+        \draw[->] (x2) -- node[] {} (y2);
+        \draw[->] (x3) -- node[] {} (y2);
+        
+        % Draw ellipses %
+        \begin{pgfonlayer}{background}
+            \node[fit = (x1) (x3) ] {};
+            \node[fit = (y1) (y3) ] {};
+        \end{pgfonlayer}
+
+        % Label %
+        \node[anchor=south] at (current bounding box.north) {$f:X \to Y$};
+        \end{tikzpicture}
+    \end{figure}
+
+    \subsubsection{Injective/One-to-One}
+    \begin{definition}
+        \label{def:injective}
+        A function $f: X \to Y$ is considered \textbf{one-to-one} or \textbf{injective} if
+        $f(x_1) = f(x_2)$ implies $x_1 = x_2$ for all $x_1, x_2 \in X$. In other words,
+        different elements in X must map to different images in Y (two elements can't map
+        to same place).
+    \end{definition}
+
+    \textbf{Example:} The function below is \textbf{not} an injective function
+    since $x_2$ and $x_3$ map to $y_2$, and $x_2 \ne x_3$.
+
+        \begin{figure}[!hbt]
+        \centering
+        \begin{tikzpicture}[
+            every node/.style={on grid},
+            set/.style={circle,inner sep=2pt},
+            every fit/.style={draw,ellipse,text width=25pt},
+            >=latex
+        ]
+        
+        % Draw domain %
+        \node[set] (x1) {$x_1$};
+        \node[set,below = of x1, color=red] (x2) {$x_2$};
+        \node[set,below = of x2, color=red] (x3) {$x_3$};
+        \node[above = of x1,anchor=south] (X) {$X$};
+
+        % Draw co-domain %
+        \node[set, right=3cm of x1] (y1) {$y_1$};
+        \node[set, below = of y1, color=red] (y2) {$y_2$};
+        \node[set, below = of y2] (y3) {};
+        \node[above = of y1,anchor=south] (X) {$Y$};
+        
+        % Draw arrows %
+        \draw[->] (x1) -- node[] {} (y1);
+        \draw[->, color=red] (x2) -- node[] {} (y2);
+        \draw[->, color=red] (x3) -- node[] {} (y2);
+        
+        % Draw ellipses %
+        \begin{pgfonlayer}{background}
+            \node[fit = (x1) (x3) ] {};
+            \node[fit = (y1) (y3) ] {};
+        \end{pgfonlayer}
+
+        % Label %
+        \node[anchor=south] at (current bounding box.north) {$f:X \to Y$};
+        \end{tikzpicture}
+    \end{figure}
+
+    \subsubsection{Bijective}
+    \begin{definition}
+        \label{def:bijective}
+        A function is said to have a \textbf{one-to-one correspondence} or \textbf{bijective}
+        if it is both injective and surjective. In other words, if all elements $x\in X$ are paired
+        with a unique $y \in Y$.
+    \end{definition}
+
+    \textbf{Example:} The below function is bijective.
+
+    \begin{figure}[!hbt]
+        \centering
+        \begin{tikzpicture}[
+            every node/.style={on grid},
+            set/.style={circle,inner sep=2pt},
+            every fit/.style={draw,ellipse,text width=25pt},
+            >=latex
+        ]
+        
+        % Draw domain %
+        \node[set] (x1) {$x_1$};
+        \node[set,below = of x1] (x2) {$x_2$};
+        \node[set,below = of x2] (x3) {$x_3$};
+        \node[above = of x1,anchor=south] (X) {$X$};
+
+        % Draw co-domain %
+        \node[set, right=3cm of x1] (y1) {$y_1$};
+        \node[set, below = of y1] (y2) {$y_2$};
+        \node[set, below = of y2] (y3) {$y_3$};
+        \node[above = of y1,anchor=south] (X) {$Y$};
+        
+        % Draw arrows %
+        \draw[->] (x1) -- node[] {} (y1);
+        \draw[->] (x2) -- node[] {} (y2);
+        \draw[->] (x3) -- node[] {} (y3);
+        
+        % Draw ellipses %
+        \begin{pgfonlayer}{background}
+            \node[fit = (x1) (x3) ] {};
+            \node[fit = (y1) (y3) ] {};
+        \end{pgfonlayer}
+
+        % Label %
+        \node[anchor=south] at (current bounding box.north) {$f:X \to Y$};
+        \end{tikzpicture}
+    \end{figure}
+
+    \subsubsection{Proving Properties of Functions}
+    \begin{center}
+        \begin{tabular}{ | m{3cm} | m{6cm}| m{6cm} | }
+            \hline
+            \textbf{Property} & \textbf{Proving} & \textbf{Disproving}\\
+            \hline
+            \textbf{Surjective} & 
+            Take any arbitrary $y \in Y$, construct some $x \in X$ so that $f(x)=y$ &
+            Find a counterexample, $y \in Y$ and show $y \ne f(x)$ for any $x \in X$ \\
+            \hline
+            \textbf{Injective} &
+            Assume $f(x_1) = f(x_2)$and deduce $x_1=x_2$ &
+            Find a counterexample, $x_1, x_2 \in X$, where $x_1 \ne x_2$ but $f(x_1) = f(x_2)$ \\
+            \hline
+            \textbf{Bijective}&
+            Prove both &
+            Disprove at least one \\
+            \hline
+        \end{tabular}
+    \end{center}
+
+    \newpage
+    \textbf{Example:} Let $f,g: \N \to \N$. Prove if $f$ and $g$ are 
+    injective and surjective.
+    
+    \begin{center}
+        \begin{tabular}{ | m{3cm} | m{12cm} |}
+            \hline
+            \multicolumn{2}{|c|}{$f(n)=n^2$} \\
+            \hline
+            \textbf{Surjective?} &
+            No, the function is not surjective as the image of x only covers squares,
+            whilst the codomain is $y \in \N$. For example, let $y$ be 3, then $f(n) = 3$,
+             $n = \pm \sqrt{3}$, but $\pm \sqrt{3} \notin \N$. \\
+            \hline
+            \textbf{Injective?} &
+            Yes the function is injective according to the proof.
+            \begin{equation*}\begin{aligned}
+                \text{Assume } f(n) = f(m) \\
+                \implies n^2 &= m^2 \\
+                n^2 - m^2 &= 0 \\
+                (n+m)(n-m) &= 0 \\
+                \implies n=-m \text{ or } m=-n \\
+                \text{but $n \in \N$, so $n \ne -m$}
+            \end{aligned}\end{equation*}
+            Since $n$ can only equal $m$, we know that the function is injective. \\
+            \hline
+        \end{tabular}
+    \end{center}
+    
+    \begin{center}
+        \begin{tabular}{ | m{3cm} | m{12cm} |}
+            \hline
+            \multicolumn{2}{|c|}{$g(n)=\abs{n-1}$} \\
+            \hline
+            \textbf{Surjective?} &
+            Yes, the function is surjective according to the proof.
+            \begin{equation*}\begin{aligned}
+                \text{Let } y & \in \N \\
+                \text{If } y \in \N, \text{ then } y+1 & \in \N \\
+                g(y+1) & = \abs{(y+1)-1} \\
+                & = \abs{y} \\
+                & = y
+            \end{aligned}\end{equation*} \\
+            \hline
+            \textbf{Injective?} &
+            No, the function is not injective, consider $g(n) = 1$, then $g(0)$ and $g(2)$
+            both satisfy $f(n)=1$, but $0 \ne 2$.\\
+            \hline
+        \end{tabular}
+    \end{center}
+    
+    \subsubsection{Functions and Finite Sets}
+    Let $X, Y$ be two finite sets, and $f: X \to Y$.
+    \begin{itemize}
+        \item If $f$ is \textbf{injective}, then $\abs{X} \le \abs{Y}$
+        \item If $f$ is \textbf{surjective}, then $\abs{X} \ge \abs{Y}$
+        \item If $f$ is \textbf{bijective}, then $\abs{X} = \abs{Y}$
+    \end{itemize}
+
+    \subsubsection{Compositions of Functions}
+    \begin{definition}[Composite Function]
+        \label{def:composite-function}
+        Let $f:X \to Y$ $g: Y \to Z$ be two functions. The composition is written
+        $g \circ f: X \to Z$
+    \end{definition}
+    \textbf{Example:} Let $f:\R^2 \to \R, f(x,y) = xy$ 
+    and $g:\R \to \R^2, g(x) = (\sin{x}, x)$ be functions.
+
+    \begin{equation*}
+        \begin{aligned}
+            f \circ g &: \R^2 \to R^2 \\
+            f(g(x)) &= f((\sin{x}, x))\\
+            &= \sin{x} \times x \\\\
+            g \circ f &: \R \to \R \\
+            g(f(x)) &= g(xy)\\
+            &= (\sin{xy}, xy)
+        \end{aligned}
+    \end{equation*}
+
+    \subsection{Sequences}
+
+    
+
 
     \newpage
     \section{Week 3}
