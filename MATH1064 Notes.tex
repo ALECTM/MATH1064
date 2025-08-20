@@ -1021,6 +1021,40 @@
     \end{equation*}
 
     \subsection{Sequences}
+    \subsubsection{Sequences}
+    \begin{definition}[Sequence]
+        \label{def:sequence}
+        A \textbf{sequence} is an ordered list of data. That is, given a set $S$,
+        a sequence in $S$ is a function $f: I \to S$ where $I \subseteq \Z$ (we can assign
+        a numerical order for elements in the set S).
+    \end{definition}
+
+    \textbf{Notation:} we use letters and subscripts to indicate elements of a sequence,
+    for example $a_1 = f(1), a_2 = f(2), a_n = f(n)$. The terms of a sequence are its elements.
+
+    \subsubsection{Equality of Sequences}
+    To prove that two sequences, $p_n$ and $b_n$ are equal sequences, we need
+    $b_n$ in closed form, and $p_n$ as a recursive sequence. Then we need to show that
+    $b_n$ satisfies the recursion relation and initial condition.
+
+    \textbf{Example:}
+    \begin{itemize}
+        \item Let $(p_n)=(2p_{n-1}+1)$, where $p_1 = 1$
+        \item Let $(b_n)_{n \ge 1}=(2^n-1)$
+    \end{itemize}
+  
+    \textbf{Prove} $p_n = b_n$ \\
+    \textbf{Initial condition:} $b_1=(2^1-1)=1=p_1=1$ \\
+    \textbf{Recursive relation:} Sub $b_{n-1}$ into $p_n$ if it equals $b_n$
+    then it is a recursive relation. 
+    \begin{equation*}
+        \begin{aligned}
+            2(b_{n-1}) +1 &= 2(2^{n-1}-1)+1 \\
+            &=2^{n-1+1}-2+1 \\
+            &=2^n-1 \\
+            &=b_n
+        \end{aligned}
+    \end{equation*}
 
     
 
