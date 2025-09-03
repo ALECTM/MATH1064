@@ -1056,6 +1056,31 @@
         \end{aligned}
     \end{equation*}
 
+    \subsubsection*{Summatiom}
+    \begin{definition}
+        \label{def:summation}
+        The summation of a sequence $a_n$ is given by $\sum^{N}_{i=1}a_n$. In discrete math, we are 
+        interested in finite summations and the closed formulas for them
+    \end{definition}
+
+    \textbf{Example:} Find a closed formula for $\sum_{i=1}^{N}i=1+2+\dots+N$.\\
+    \textbf{Claim: $\sum_{i=1}^{N}i = \frac{N(N+1)}{2}$}
+    \begin{proof}
+        Let $M = \sum_{i=1}^{N}i$. \\
+        Then,
+        \begin{align*}
+            2M &= 2 \sum_{i=1}^{N}i \\
+            &= \sum_{i=1}^{N}i + \sum_{k=1}^{N}k \\\\
+            \sum_{k=1}^{N}k &= N + (N-1) + (N-2) + \dots + 1 \\
+            &= \sum_{k=1}^{N} (N - k + 1) \\\\
+            2M &= \sum_{i=1}^{N} i + \sum_{k=1}^{N} (N - k + 1) \\
+            &= \sum{i=1}^{N} N + 1 = N(N+1) \\
+            M *= \frac{N(N+1)}{2}
+        \end{align*}
+        Note$_{1}$: we changed variable $i$ to $k$ in the second summation. \\
+        Note$_{2}$: the variables $i$ and $k$ are equal to each other, so we add
+        them in the final $2M$ calculation.
+    \end{proof}
     
 
 
