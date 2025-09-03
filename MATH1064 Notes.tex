@@ -1056,7 +1056,7 @@
         \end{aligned}
     \end{equation*}
 
-    \subsubsection*{Summatiom}
+    \subsubsection{Summatiom}
     \begin{definition}
         \label{def:summation}
         The summation of a sequence $a_n$ is given by $\sum^{N}_{i=1}a_n$. In discrete math, we are 
@@ -1069,23 +1069,139 @@
         Let $M = \sum_{i=1}^{N}i$. \\
         Then,
         \begin{align*}
-            2M &= 2 \sum_{i=1}^{N}i \\
+            2M &= 2 \times \sum_{i=1}^{N}i \\
             &= \sum_{i=1}^{N}i + \sum_{k=1}^{N}k \\\\
             \sum_{k=1}^{N}k &= N + (N-1) + (N-2) + \dots + 1 \\
             &= \sum_{k=1}^{N} (N - k + 1) \\\\
             2M &= \sum_{i=1}^{N} i + \sum_{k=1}^{N} (N - k + 1) \\
-            &= \sum{i=1}^{N} N + 1 = N(N+1) \\
-            M *= \frac{N(N+1)}{2}
+            &= \sum_{i=1}^{N} N + 1 = N(N+1) \\
+            M &= \frac{N(N+1)}{2}
         \end{align*}
-        Note$_{1}$: we changed variable $i$ to $k$ in the second summation. \\
-        Note$_{2}$: the variables $i$ and $k$ are equal to each other, so we add
-        them in the final $2M$ calculation.
+        \textbf{Note$_{1}$:} we changed variable $i$ to $k$ in the second summation. \\
+        \textbf{Note$_{2}$:} the variables $i$ and $k$ are equal to each other, so when we add
+        them in the final $2M$ calculation they cancel each other out.
     \end{proof}
-    
-
 
     \newpage
     \section{Week 3}
+    \subsection{Divisibility and Modular Arithmetic}
+    \subsubsection{Divides}
+    \textbf{Remark:} When discussing division, we only use integers $\Z$.\\
+    \begin{definition}[Divides]
+        \label{def:divides}
+        For two integers $a$ and $b$, we say that $a$ \textbf{divides} $b$,
+        written as $a \mid b$, if there exists some integer $k \in \Z$ such that
+        $b = ak$. Otherwise, if $a$ does not divide $b$ we write $a \nmid b$.
+    \end{definition}
+
+    \textbf{Examples:}
+    \begin{itemize}
+        \item $-3 \mid 12$ since $-4(-3) = 12$
+        \item $4 \nmid 7$ since there is not integer such that $7 = 4k$
+        \item $1 \mid n$ for all $n \in \Z$ since $n = 1(k)$
+        \item $n \mid 0$ for all $n$ since $0 = n(0)$
+    \end{itemize}
+
+    \subsubsection{Properties of Divisibility}
+    Let $a,b,c \in \Z$, and $a \ne 0$:
+    \begin{enumerate}
+        \item If $a \mid b$ and $a \mid c$, $\implies a \mid (b+c)$
+        \item If $a \mid b$, $\implies a \mid bc$
+        \item If $a \mid b$, $b \ne 0$ and $b \mid c$, $\implies a \mid c$
+    \end{enumerate}
+    \begin{proof}[Proof. Property 1]
+        Assume $a \mid b$, and $a \mid c$. \\
+        Then there exists some integers $k,j \in \Z$ such that:
+        \begin{align*}
+            b &= ak \\
+            c &= aj
+        \end{align*}
+        Then, $b+c$ can be expressed as:
+        \begin{align*}
+            b + c &= ak + aj \\
+            &= a(k+j)
+        \end{align*}
+        Which fits our definition of divisibility, thus $a \mid (b+c)$.
+    \end{proof}
+
+    \begin{proof}[Proof. Property 2]
+        Assume $a \mid b$. \\
+        Then it follows that $a \mid bc$ since $bc = (ak)c = a(kc)$. Which fits our definition
+        of divisibility.
+    \end{proof}
+
+    \begin{proof}[Proof. Property 3]
+        Assume that $a \mid b$, $b \ne 0$ and $b \mid c$. \\
+        Then, we say:
+        \begin{align*}
+            b &= ak \text{ for some } \{k \in \Z \mid k \ne 0\} \\
+            c &= bj \text{ for some } \{j \in \Z\} \\
+            &= (ak)j
+        \end{align*}
+        This fits our definition of divisibility, thus $a \mid c$.
+    \end{proof}
+
+    \subsubsection{The Remainder Theorem}
+    The remainder theorem is applied when $a \nmid b$. \\
+    \begin{theorem}[Remainder Theorem]
+        \label{thm:remainder-theorem}
+        Let $n,d,\in \Z$ be two integers with $d > 0$. Then there are unique integers $q, r$ with
+        $0 \le r \lt d$. Such that $n = dq + r$.
+    \end{theorem}
+
+    \textbf{Note:} Remainders must be:
+    \begin{itemize}
+        \item Non-negative $0 \le r$
+        \item Less than the divisor $r \lt d$
+    \end{itemize}
+
+    \textbf{Example 1:} $12 \nmid 51$
+    \begin{align*}
+        51 = 12(4) + 3 \\
+        d = 12, q = 4, r = 3
+    \end{align*}
+
+    \textbf{Example 2:} \\
+    An application of this is determing if there is an integer $n$ such that 
+    $\{n^2 \in Z \mid \text{ends with 7}\}$ Some examples are shown below:
+    \begin{align*}
+        &&0^2 &&1^2 &&2^2 &&3^2 &&4^2 &&5^2 &&6^2 &&7^2 &&8^2 &&9^2 &&10^2 \\
+        &&0 &&1 &&4 &&9 &&16 &&25 &&36 &&49 &&64 &&81 &&100
+    \end{align*}
+    We notice that the pattern starts repeating after 9 digits, none end in 7. \\
+    Let $n \in \Z$, then $n = 10q + r$, where $r$ is the last digit of $n \implies 
+    0 \le r \lt 10$.
+    \begin{align*}
+        n^2 &= (10q + r)(10q + r) \\
+        &= (100q^2 + 20qr + r^2) \\
+        &= 10(10q^2 + 2qr) + r^2
+    \end{align*}
+    The last digit of $n^2$ is determined by $r^2$. From the examples above, we know
+    $r$ will not equal 7, thus there is no integer $n$ such that $n^2$ ends with 7.
+
+    \subsubsection{Modular Arithmetic}
+    \begin{definition}[Congruence Modulo]
+        \label{def:congruence-modulo}
+        If two integers $n , m \in \Z$ have the same remainder when divided by $d$, we say
+        $n$ and $m$ are \textbf{congruent modulo d} and write $m \equiv n \mod d$. In other words,
+        \begin{align*}
+            n &= q_1(d) + r \\
+            m &= q_2(d) + r \\
+            &\implies n \equiv m \mod d
+        \end{align*}
+    \end{definition}
+
+    \textbf{Properties of Congruence Modulo:}
+    \begin{enumerate}
+        \item $n = qd +r \implies n \equiv r \mod d$
+        \item $n \equiv m \mod d \iff d \mid (n - m)$
+        \item $n \equiv 0 \mod \iff d \mid n$
+    \end{enumerate}
+
+    \subsection{Prime Numbers, GCD, LCM}
+
+    \subsection{Euclidean Algorithm}
+
 
     \newpage
     \section{Week 4}
