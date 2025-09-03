@@ -1266,9 +1266,81 @@
         \item $\lcm(576, 78408) = 2^6 \times 3^4 \times 11^2$
     \end{itemize}
 
-
     \subsection{Euclidean Algorithm}
+    \subsubsection{Euclidean Algorithm}
+    \begin{definition}[co-prime]
+        \label{def:co-prime}
+        Two integers $a,b \in \Z$ are said to be \textbf{co-prime} if $\gcd(a,b) = 1$,
+        e.g. $\gcd(5,7) = 1$\\
+    \end{definition}
 
+    \begin{theorem}
+        \label{thm:euclidean-algorithm}
+        $\gcd(a,b) = \gcd(b, r)$. \\
+    \end{theorem}
+    \begin{proof}
+        Suppose there exists some $d \in \Z$ such that $d \mid a$ and $d \mid b$,
+        \begin{align*}
+            d &\mid (a + qb), \{q \in \Z\} \\
+            d &\mid r \text{ since $r = a - qb$}
+        \end{align*}
+        \textbf{Note:} $(a+qb)$ follows the property 1 of divisibility $d \mid (a + b)$\\
+        Now consider the existence of some $c \in \Z$ such that $c \mid b$ and $c \mid r$.
+        \begin{align*}
+            c &\mid (r + qb) \\
+            c &\mid ((a - qb) + qb) \text{ since $r = a-qb$}\\
+            c &\mid a
+        \end{align*}
+        Now both $d$ and $c$ share common divisors, thus $\gcd(a,b) = \gcd(b,r)$.
+    \end{proof}
+
+    \subsubsection{Application of Euclidean Algorithm}
+    \textbf{To Find $\gcd(a,b)$ with $a \ge b \ge 0$:}
+    \begin{enumerate}
+        \item Write $a = qb + r$ by division algorithm
+        \item If $r = 0$, then $\gcd(a,b) = b$. Stop.
+        \item Otherwise if $r \ne 0$, then replace $a$ by $b$ and repeat.
+    \end{enumerate}
+
+    \textbf{Example:} See assignment 1 Q3.
+
+    \subsubsection{Base b Expansions}
+    \begin{definition}[Base b Expansion]
+        \label{def:base-b-expansion}
+        Numbers are typically denoted "decimally", i.e. in "base1-10".
+        \begin{equation*}
+            n = a_0 \times 10^0 + a_1 \times 10^1 + a_2 \times 10^2 + \dots + a_k \times 10^k
+        \end{equation*}
+        Let $b > 1$ be a positive integer. Then every positive integer $n$ can be
+        uniquely expressed as:
+        \begin{equation*}
+            n = a_0 \times b^0 + a_1 \times b^1 + a_2 \times b^2 + \dots + a_k \times b^k
+        \end{equation*} 
+    \end{definition}
+
+    \textbf{Example 1:} Convert $78_{10}$ to base 2.
+    \begin{align*}
+        78 &= 2(39) + 0 \\
+        39 &= 2(19) + 1 \\
+        19 &= 2(9) + 1 \\
+        9 &= 2(4) + 1 \\
+        4 &= 2(2) + 0 \\
+        2 &= 2(1) + 0 \\
+        1 &= 2(0) + 1 \\
+        &\implies 78_{10} = 1001110_2
+    \end{align*}
+    Here, we take the remainder from bottom to top to get the base 2 representation.
+
+    \textbf{Example 2:} Convert $(245)_8$ to base 10.
+    \begin{align*}
+        245_8 &= (5 \times 8^0) + (4 \times 8^1) + (5 \times 8^2) \\
+        &= 5 + 32 + 128 \\
+        &= 165_{10}
+    \end{align*}
+
+    \subsubsection{Base b Arithmetic}
+    Base $b$ expressions are positional. The usual arithmetic operations work, but you
+    need to "carry over" $b$ instead of 10.
 
     \newpage
     \section{Week 4}
