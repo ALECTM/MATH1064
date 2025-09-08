@@ -32,7 +32,12 @@
 \usepackage{fourier-orns}
 \usepackage{kvoptions}
 \usepackage[]{units}
+\usepackage[]{units}
 % \usepackage[normal]{subfigure}
+\usepackage[most]{tcolorbox}
+\usepackage{lipsum}
+\usepackage{adjustbox}
+\usepackage{enumitem}
 \usepackage{subfig}
 \usepackage{array}
 
@@ -95,6 +100,31 @@
 %     \stepcounter{weekcntr}
 %     \section{Week \theweekcntr}
 % }
+
+\newtcolorbox{example}{%
+    enhanced,
+    before skip=2mm,after skip=2mm, 
+    boxrule=0.6pt,
+    colback=gray!10, 
+    colframe=black!50,
+    attach boxed title to top left={xshift=0cm,yshift*=0mm-\tcboxedtitleheight},
+    varwidth boxed title*=-3cm,
+    % The titlebox:
+    boxed title style={frame code={%
+        \path[left color=black!50,right color=black!50, middle color=black!50]
+        (frame.north west) [sharp corners] -- 
+        (frame.north east) [rounded corners=2mm] -- 
+        (frame.south east) [sharp corners] -- 
+        (frame.south west) [rounded corners=2mm] -- 
+        cycle;
+        },interior engine=empty,
+    },
+    width=\textwidth,
+    arc is curved,
+    arc = 1.5mm,
+    fonttitle=\bfseries, 
+    title=Example
+}
     
  
 \begin{document}
@@ -1366,7 +1396,7 @@
     For multiplication, we go from left to right, multiplying terms and rewriting them in remainder theorem form $a = qb + r$. 
     The remainder becomes the number that remains while the quotient is what is carried over.
 
-    \textbf{Example: } $45_6 \times 24_6$
+    $45_6 \times 24_6$
     \begin{figure}[!hbt]
         \centering
             \begin{tabular}{r@{\hskip 1in}l}
@@ -1395,11 +1425,310 @@
     \section{Week 4}
     \subsection{Introduction to Counting}
 
-    \subsection{Permutations and Combinations}
+    \subsubsection{Probability of Equally Likely Events}
+    Let $S$ be the set of all possible outcomes of an event, let event $E$ be a subset of the sample space. Then if all outcomes
+    in $S$ are equally likely, then for an event $E \subseteq S$:
+    \begin{equation*}
+        P(E) = \frac{\abs{E}}{\abs{S}}
+    \end{equation*}
+    \textbf{Where:}
+    \begin{itemize}
+    \item $\abs{E}$ is the number of ways the desired event happens
+    \item $\abs{S}$ is the number of total events
+    \end{itemize}
 
+    \subsubsection{Common Counting Problem}
+    A common counting problem is how many ways are there to select $k$ elements from a collection of $n$ elements? This can be 
+    answered by determing two things:
+    \begin{enumerate}
+        \item Does the \textbf{order} of elements selected matter? (e.g. rankings)
+        \item Is \textbf{repetition} allowed? Can the same element be selected many times?
+    \end{enumerate}
+
+
+    \subsubsection{Order Matters, Repetition Allowed}
+    \begin{definition}[Multiplication Rule]
+        \label{def:multiplication-rule}
+        If a decision process can be broken into a finite number of independent steps, and there are $n_i$ outcomes for the
+        $i^{th}$ step, then apply the \textbf{multiplication rule}:
+        \begin{equation*}
+            \prod_i n_i = n_1 \times n_2 \times \dots \times n_k
+        \end{equation*}
+    \end{definition}
+
+    \begin{example}
+        A restaurant has a menu consisting of 3 appetizers, 7 main courses, and 5 deserts. How many possible three-course
+        meals are there? \\
+
+        First, we determine how many outcomes there are:
+        \begin{itemize}
+            \item $\abs{A} = 3$ appetizers
+            \item $\abs{M} = 7$ mains
+            \item $\abs{D} = 5$ deserts \\
+        \end{itemize}
+        Thus, applying the multiplication rule,
+        \begin{align*}
+            \text{Num of choices} &= 3 \times 7 \times 6 \\
+            &= 126
+        \end{align*}
+    \end{example}
+
+
+    \subsubsection{Order Matters, No Repetition}
+    \begin{definition}[Permutations]
+        \label{def:permutation}
+        If you choose $k$ elements from a set $S$, and $n = \abs{S}$ where \textbf{order matters} and \textbf{no repetition is allowed}, there are
+        \begin{itemize}
+            \item $n$ options for choice 1
+            \item $n-1$ options for choice 2
+            \item \dots
+            \item $n-k+1$ options for choice $k$
+        \end{itemize}
+        The total number of choices is given by:
+        \begin{align*}
+            _nP_k &= \frac{n!}{(n-k)!}\\
+            &= n \times (n-1) \times (n-2) \times \dots \times (n-k) \times (n-k+1)
+        \end{align*}
+    \end{definition}
+
+    \begin{example}
+        An award ceremony is taking place for a competition with 12 participants. There are three rankings, first place, second place, and third
+        place. How many possible lineup combinations are there? \\
+
+        There are three slots, thus $k = 3$, and 12 participants $n = 12$. Applying the formula,
+        \begin{align*}
+            _{12}P_3 &= \frac{12!}{(12-3)!} \\
+            &= 1320
+        \end{align*}
+    \end{example}
+
+
+    \subsection{Combinations}
+    \subsubsection{Order Doesn't Matter, No Repetition}
+    \begin{definition}[Combination]
+        \label{def:combination}
+        If \textbf{order matters} and \textbf{repetition is not allowed}, to select $k$ elements from $n$ elements we use $_nP_k = \frac{n!}{(n-k)!}$. \\
+        Thus, if \textbf{order doesn't matter} we need to remove each selection which has been counted $k!$ times.
+
+        \begin{align*}
+            _nC_k &= \frac{_nP_k}{k!} \\
+            &= \frac{n!}{k!(n-k)!}
+        \end{align*}
+        \textbf{Where:}
+        \begin{itemize}
+            \item $n$ is the total number of items
+            \item $k$ is the number of choices
+        \end{itemize}
+
+        This is often represented as:
+        \begin{equation*}
+            \binom{n}{k} = \frac{n!}{k!(n-k)!}
+        \end{equation*}
+    \end{definition}
+
+    \begin{example}
+        Math1064 has 800 students. Two rooms are allocated for the final exam, with one holding 420 students and the other holding 380 students.
+        How many ways can we divide the class into these rooms. \\
+
+        \textbf{$n = 800$} as there are 800 students, and \textbf{$k = 420$} or \textbf{$k = 380$} (proof shown later). 
+        Repetition doesn't matter since there are no duplicate students. Order doesn't matter as the placement of the
+        students in the room isn't important.
+
+        \begin{equation*}
+            \text{No. of outcomes} = \binom{800}{420} = \binom{800}{380}
+        \end{equation*}
+    \end{example}
+
+    \begin{proof}
+        For $b,k \in \Z$ such that $0 \le k \le n$ show that $\binom{n}{k} = \binom{n}{n-k}$.
+        \begin{align*}
+            \binom{n}{k} &= \frac{n!}{k!(n-k)!} \\\\
+            \binom{n}{n-k} &= \frac{n!}{(n-k)!(n-(n-k))!} \\
+            &= \frac{n!}{(n-k)!(k)!} \\
+            &= \binom{n}{k} \\
+        \end{align*}
+    \end{proof}
+
+
+    \subsubsection{Order Doesn't Matter, Repetition Allowed}
+    If \textbf{order doesn't matter} and \textbf{repetition is allowed}, then the number of options is given by the
+    equation:
+    \begin{equation*}
+        _{(n+k-1)}C_{(n-1)} = \binom{n+k-1}{n-1}
+    \end{equation*}
+    \textbf{Where:}
+    \begin{itemize}
+        \item $n$ is the total number of items
+        \item $k$ is the number of choices
+    \end{itemize}
+
+    \begin{example}
+        You have 7 \$1 coins to give to your 3 friends. Each person \textbf{must} get at least one coin. How many ways
+        can your coins be distributed. \\
+
+        Here, the position and order of the coins doesn't matter. Repetition is allowed because the coins are
+        identical. \\
+
+        We assume that there are $k = 7$ decisions and $n = 3$ friends to give out coins to:
+        \begin{align*}
+            \binom{7+3-1}{3-1} &= \binom{9}{2}
+            &= 36 \text{ ways}
+        \end{align*}
+        \textbf{But this is wrong}, because doesn't consider the fact that each person \textbf{must} receive one coin
+        each at the minimum.\\
+
+        Thus, the actual number of choices is $k = 7-3 = 4$ as 3 coins must be given out, so we only actually have to
+        make 4 choices.
+        \begin{align*}
+            \binom{4+3-1}{3-1} &= \binom{6}{2}
+            &= 15 \text{ ways} 
+        \end{align*} 
+    \end{example}
+
+    \subsubsection{Summary of Counting Rules}
+    \begin{center}
+    \renewcommand{\arraystretch}{2} % increases row height
+    \begin{tabular}{|>{\centering\arraybackslash}m{4cm}
+                    |>{\centering\arraybackslash}m{4cm}
+                    |>{\centering\arraybackslash}m{4cm}|}
+        \hline
+        & \multicolumn{2}{c|}{\textbf{Order}} \\ \cline{2-3}
+        & \textbf{Matters} & \textbf{Doesn't Matter} \\
+        \hline
+        \textbf{Repetition Allowed} & 
+        $\prod n_k$ &
+        $_{(n+k-1)}C_{(n-1)}$\\
+        \hline
+        \textbf{Repetition Not Allowed} &
+        $_nP_k$ &
+        $_nC_k$ \\
+        \hline
+    \end{tabular}
+    \end{center}
+
+    \newpage
     \subsection{Complex Counting Problems}
+    \subsubsection{Counting Problems Involving Equivalent Orderings}
+    Equivalent ordering is an overcounting problem that occurs when we redundantly count an identical sequence
+    multiple times. To solve equivalent orderings problems, we treat identical items as their own individual block
+    and remove them from the total outcomes. \\
+
+    \begin{example}
+        For instance, how many ways can we order the letters $AAB$? Order matters and repetition is allowed
+        so applying the multiplication rule there are:
+        \begin{equation*}
+            3! = 3 \times 2 \times 1 = 6 \text{ ways}
+        \end{equation*}
+        But this is incorrect because we count the identical sequence $AA$ multiple times such that $AAB$ and $BAA$
+        are both counted two times. \\
+
+        There are $2! = 2$ ways to order $A, A$. Thus the actual number of ways to organise the letters are:
+        \begin{equation*}
+            \frac{3!}{2!} = \frac{6}{2} = 3
+        \end{equation*}
+        Which is true as this is \{$AAB$, $ABA$, $BAA$\}.
+    \end{example}
+
+    \begin{example}
+        How many ways can we rearrange the letters in the word $BOOKSHOPS$ to produce a unique sequence of letters? \\
+
+        There are $n = 9$ letters in total.
+        \begin{itemize}
+            \item There are $3$ $O$'s $\implies 3!$ ways to organise $OOO$
+            \item There are $2$ $S$'s $\implies 2!$ ways to organise $SS$
+        \end{itemize}
+        Thus, removing the redundant sequences, the unique number of arrangements is:
+        \begin{equation*}
+            \frac{9!}{3!\times2!} = 30240 \text{ ways}
+        \end{equation*}
+    \end{example}
+    \vspace{20px}
+
+    \begin{theorem}
+        In general if $n$ objects are ordered where:
+        \begin{itemize}
+            \item $n_1$ has property $T_1$
+            \item $n_2$ has property $T_2$
+            \item $\dots$
+            \item $n_k$ has property $T_k$
+        \end{itemize}
+        Then the number of distinct ordered sequences is:
+        \begin{equation*}
+            \frac{n!}{n_1!\times n_2! \times \dots \times n_k!}
+        \end{equation*}
+    \end{theorem}
+
+    \subsubsection{Counting Problems Involving Distinct 'Blocks'}
+    Another problem is when distinct items \textbf{must} be grouped together. Here, we treat the items that need to be
+    grouped together as a single 'block' and adjusting the total number of items $n$ accordingly.
+
+    \begin{example}
+        Ten individuals are lining up single-file for a photo. If Joe wants to stand next to Bob.
+        How many ways can the photoshoot be arranged? \\
+
+        There are $n = 10$ people in total. If we treat Bob and Joe as a single block, there are $9$ position both of
+        them and $8!$ ways for the remaining people to be ordered.\\
+        \begin{center}
+            \includegraphics[scale=0.66]{grouping_counting_problem.png}\\
+            \textit{Case 1 is for Joe-Bob orderings, Case 2 is for Bob-Joe orderings.}
+        \end{center}
+        \vspace{25px}
+
+        Order matters and repetition is not allowed. In each case, there are:
+        \begin{equation*}
+            8! \times 9 = 9! \text{ orderings}
+        \end{equation*}
+        So accounting for both cases $JOE,BOB$ and $BOB,JOE$, there are
+        \begin{equation*}
+            2 \times 9! = 725760 \text{ orderings}
+        \end{equation*}
+
+        Alternatively, notice that there are $18$ possible pairings for Joe and Bob, and $8!$ remaining positions for the
+        rest of the group.
+        \begin{equation*}
+            18 \times 8! = 725760
+        \end{equation*}
+        \textbf{NOTE:} We can double check the answer by seeing if it is less than $10!$ which is the normal total number
+        of orderings without restrictions.
+    \end{example}
+    \vspace{25px}
+
+    \begin{example}
+        Ten individuals are lining up single-file for a photo. If Joe DOES NOT want to stand next to Bob. How
+        many ways can the photoshoot be arranged? \\
+
+        We saw previously, there were $2 \times 9!$ ways to organise the photoshoot with them standing next to
+        each other. Now we find the inverse by subtracting the total number of outcomes with the number of outcomes
+        where they are standing next to each other. \\
+
+        $n = 10$, so there are $10!$ outcomes without restrictions. Subtracting the number of outcomes that are
+        impossible, we get $10! - (2 \times 9!)$.
+    \end{example}
+    \vspace{25px}
+
+    \subsubsection{Formalising these Counting Principles}
+    We can \textbf{overcount} as long as we remove the extra things which we counted. \\
+
+    Let $S$ and $T$ be finite sets.
+    \begin{itemize}
+        \item $\abs{S\times T} = \abs{S} + \abs{T}$
+        \item If $S$ and $T$ are disjoint sets such that $S \cup T = \emptyset$,
+            then $\abs{S \cup T} = \abs{S} + \abs{T}$
+        \item If $T \subseteq T$, then $\abs{S \setminus T} = \abs{S} - \abs{T}$
+    \end{itemize}
 
     \newpage
     \section{Week 5}
-    
+    \subsection{Inclusion-Exclusion \& Pidgeonhole Principle}
+
+
+    \subsection{Binomial Theorem}
+
+
+    \subsection{Catalan Numbers}
+
+
+    \newpage
+    \section{Week 6}
+
 \end{document}
