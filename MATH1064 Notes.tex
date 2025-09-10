@@ -1720,13 +1720,115 @@
     \newpage
     \section{Week 5}
     \subsection{Inclusion-Exclusion \& Pidgeonhole Principle}
+    \subsubsection{Inclusion-Exclusion Principle}
+    \begin{theorem}[Inclusion-Exclusion Principle]
+        \label{thm:inclusion-exclusion-principle}
+        Let $A$ and $B$ be two finite sets. Then:
+        \begin{equation*}
+            \abs{A \cup B} = \abs{A} + \abs{B} - \abs{A \cap B}
+        \end{equation*}
+    \end{theorem}
 
+    \begin{example}
+        Suppose that Math 1 is a prerequisite for Math 2a, Math 2b, and Math 2c.
+        Only students taking Math 2 classes took Math 1. Now consider the class sizes:
+        \begin{itemize}
+            \item Math 2a: 50 students
+            \item Math 2b: 60 students
+            \item Math 2c: 70 students
+        \end{itemize}
+        And the overlaps:
+        \begin{itemize}
+            \item Math 2a and Math 2b: 30 students
+            \item Math 2a and Math 2c: 20 students
+            \item Math 2b and Math 2c: 25 students
+            \item All three: 5 students
+        \end{itemize}
+        How many students took Math 1?
 
-    \subsection{Binomial Theorem}
+        \begin{align*}
+            \abs{A \cup B \cup C} &= \abs{A} + \abs{B} + \abs{C} - \abs{A \cap B} - \abs{A \cap C} - \abs{B \cap C} + \abs{A \cap B \cap C} \\
+            &= 50 + 60 + 70 - 30 - 20 - 25 + 5 \\
+            &= 110
+        \end{align*}
 
+        \textbf{Note:} We add back the intersection of all three sets ($\abs{A \cap B \cap C}$)
+        since it was subtracted three times in the previous step ($\abs{A \cap B}$),
+        ($\abs{A \cap C}$), ($\abs{B \cap C}$).
+    \end{example}
+    \vspace{25px}
 
+    We may generalize the inclusion-exclusion principle to include more than
+    two sets.
+    \begin{itemize}
+        \item Count each set: add $\abs{A_i}$
+        \item Remove all two-set intersections: minus $\abs{A_i \cap A_j}$
+        \item Add back all triple intersections: add $\abs{A_j \cap A_j \cap A_k}$
+    \end{itemize}
+
+    \subsubsection{Pidgeonhole Principle}
+    \begin{theorem}[Pidgeonhole Principle]
+        \label{thm:pidgeonhole-principle}
+        If you have $n$ items to be placed in $k$ boxes, and if $k \lt n$, then
+        one box must contain \textbf{at least two} items.
+
+        \textbf{Note:} The principle assumes equal distribution of items in boxes,
+        and gives us the \textbf{minimum} number of items that one box contains.
+    \end{theorem}
+
+    \begin{example}
+        A sock drawer has unmatched socks in 4 different colours: black, white, blue, and
+        grey. If you randomly pick a sock, how many socks how many times do you need to pull
+        out socks to guarantee a pair? \\
+
+        Here, we assume the worst-case scenario.\\
+
+        \begin{center}
+        \begin{tabular}{| m{3cm} | m{3cm} | m{3cm} | m{3cm} |}
+            \hline
+            Black & White & Blue & Grey \\
+            \hline
+            1 & 1 & 1 & 1 \\
+            \hline
+        \end{tabular}
+        \end{center}
+        \vspace{25px}
+
+        For the first four decisions, we pick socks of different colours. Thus, we need
+        to draw 5 socks to guarantee a pair.
+    \end{example}
+    \vspace{25px}
+
+    \begin{theorem}[Generalised Pidgeonhole Principle]
+        \label{thm:generalised-pidgeonhole-principle}
+        If $n$ items are placed in $k$ boxes, and $n \gt k \times m$ for some $m \in \N$,
+        then at least one box has $m+1$ items. \\
+    \end{theorem}
+
+    \begin{example}
+        In a group of 50 people, prove that at least 5 people were born in the same month. \\
+
+        Here, this problem is asking us for a \textbf{minimum} number of people which share
+        a birth month.
+        \begin{proof}
+            There are 12 months in a year, $k = 12$ and 50 people in one room $n=50$.
+            Using the remainder theorem:
+            \begin{align*}
+                n &= qd + r \\
+                50 &= 12(4) + 2 \\
+                50 & \gt 12 (4)
+            \end{align*}
+            This implies that every month has at least $\ge 4$ people born in it, with 2 people
+            left over to be placed in any month. Hence, at least one month has at least $5$
+            people born in it.
+        \end{proof}
+    \end{example}
+
+    
     \subsection{Catalan Numbers}
-
+    
+    \subsection{Binomial Theorem}
+    \subsubsection{Binomial Theorem}
 
     \newpage
     \section{Week 6}
