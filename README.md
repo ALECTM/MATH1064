@@ -1,7 +1,8 @@
 # 📕 MATH1064
 ## ❓ What is this?
-These are my MATH1064 notes and the LaTeX source code. I can't guarantee that these notes are absolutely correct, 
-I've simply wrote these notes for myself in a way that I can understand. Thus, they may not be best for you. 
+These are my MATH1064 notes and the LaTeX source code. I cannot guarantee that these notes are absolutely correct or
+up to date. I've simply wrote these notes for myself in a way that I can understand and at a time where I'm bothered
+to study. Thus, they may not be best method for studying for you. 
 
 ### 💡 Can I use these notes?
 Sure mate, go for it, it's not like I invented math. You can modify and copy anything you want inside my notes
